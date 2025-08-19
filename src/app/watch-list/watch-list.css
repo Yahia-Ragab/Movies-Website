@@ -1,0 +1,7 @@
+img {
+    width: 250px;
+    display: block;
+    margin: 20px auto;
+    opacity: 0.5;
+    filter: grayscale(30%);
+}

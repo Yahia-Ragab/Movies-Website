@@ -1,0 +1,22 @@
+.custom-arrow {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.custom-arrow i {
+  font-size: 2rem;
+  color: white;
+}
+
+.custom-arrow:hover {
+  background: black;
+}

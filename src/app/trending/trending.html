@@ -1,0 +1,66 @@
+<h2 class="mt-4 mb-3 text-center">Trending Movies</h2>
+
+<div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let movie of movies().slice(0,4)">
+          <div class="card mb-4 shadow-sm">
+            <img 
+              [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+              class="card-img-top" 
+              alt="{{ movie.title }}" />
+            <div class="card-body">
+              <i 
+                class="bi" 
+                [ngClass]="movie.liked ? 'bi-heart-fill text-warning fs-3' : 'bi-heart fs-3'" 
+                (click)="toggleLike(movie)"
+                style="cursor: pointer; float: right;">
+              </i>
+              <h5 class="card-title">{{ movie.title }}</h5>
+              <p class="card-text">
+                <strong>Release:</strong> {{ movie.release_date }} <br>
+                <strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10 <br>
+                <strong>Genres:</strong> {{ getGenresForMovie(movie.genre_ids) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let movie of movies().slice(4,8)">
+          <div class="card mb-4 shadow-sm">
+            <img 
+              [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+              class="card-img-top" 
+              alt="{{ movie.title }}" />
+            <div class="card-body">
+              <i 
+                class="bi" 
+                [ngClass]="movie.liked ? 'bi-heart-fill text-warning fs-3' : 'bi-heart fs-3'" 
+                (click)="toggleLike(movie)"
+                style="cursor: pointer; float: right;">
+              </i>
+              <h5 class="card-title">{{ movie.title }}</h5>
+              <p class="card-text">
+                <strong>Release:</strong> {{ movie.release_date }} <br>
+                <strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10 <br>
+                <strong>Genres:</strong> {{ getGenresForMovie(movie.genre_ids) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev custom-arrow" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
+    <i class="bi bi-chevron-left"></i>
+  </button>
+  <button class="carousel-control-next custom-arrow" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
+    <i class="bi bi-chevron-right"></i>
+  </button>
+</div>
