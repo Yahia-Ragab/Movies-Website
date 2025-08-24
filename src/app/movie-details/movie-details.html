@@ -1,0 +1,33 @@
+<div class="movie-details-container bg-warning d-flex flex-wrap p-3 rounded shadow-sm">
+  
+  <div class="poster me-4 mb-3">
+    <img 
+      [src]="'https://image.tmdb.org/t/p/w500' + movie().poster_path" 
+      [alt]="movie().title" 
+      class="img-fluid rounded shadow">
+  </div>
+  
+  <div class="info flex-grow-1">
+    <h1 class="mb-2">{{ movie().title }}</h1>
+    <h4 class="text-muted mb-3">{{ movie().tagline }}</h4>
+
+    <p><strong>Overview:</strong> {{ movie().overview }}</p>
+
+    <ul class="list-unstyled mb-3">
+      <li><strong>Release Date:</strong> {{ movie().release_date }}</li>
+      <li><strong>Runtime:</strong> {{ movie().runtime }} min</li>
+      <li><strong>Rating:</strong> ⭐ {{ movie().vote_average }} ({{ movie().vote_count }} votes)</li>
+      <li><strong>Budget:</strong> ${{ movie().budget | number }}</li>
+      <li><strong>Revenue:</strong> ${{ movie().revenue | number }}</li>
+    </ul>
+
+    <p>
+      <strong>Genres:</strong> 
+      {{ movie().genres[0]?.name }}, {{ movie().genres[1]?.name }}, {{ movie().genres[2]?.name }}
+    </p>
+
+    <button routerLink="" class="btn btn-primary mt-2">⬅ Back to Movies</button>
+  </div>
+
+</div>
+<app-recommended-films [movieId]="movie()?.id"></app-recommended-films>

@@ -3,11 +3,12 @@ import { NgFor, DecimalPipe, NgClass } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Trending } from '../trending/trending';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [NgFor, HttpClientModule, DecimalPipe, NgClass,Trending],
+  imports: [NgFor, HttpClientModule, DecimalPipe, NgClass, Trending, RouterLink],
   templateUrl: './movies.html',
   styleUrls: ['./movies.css']
 })
@@ -22,15 +23,27 @@ export class Movies implements OnInit {
   totalPages = 100;
   visiblePages: number[] = [];
 
-  constructor(public http: HttpClient) {}
+  likedMovies: any[] = [];   // ✅ store full objects, not numbers
+
+  constructor(public http: HttpClient, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.loadGenres().subscribe({
-      next: (response) => {
-        response.genres.forEach((g: any) => this.genresMap.set(g.id, g.name));
-        this.loadMovies(1);
-      },
-      error: (err) => console.error('Error loading genres:', err)
+    if (typeof window !== 'undefined' && localStorage) {
+      this.likedMovies = JSON.parse(localStorage.getItem('likedMovies') || '[]');
+    }
+
+    this.route.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.searchMovies(params['q']);
+      } else {
+        this.loadGenres().subscribe({
+          next: (response) => {
+            response.genres.forEach((g: any) => this.genresMap.set(g.id, g.name));
+            this.loadMovies(1);
+          },
+          error: (err) => console.error('Error loading genres:', err)
+        });
+      }
     });
   }
 
@@ -56,7 +69,10 @@ export class Movies implements OnInit {
 
     this.getMovies(page).subscribe({
       next: (res) => {
-        const limitedMovies = res.results.slice(0, 6).map((m: any) => ({ ...m, liked: false }));
+        const limitedMovies = res.results.slice(0, 6).map((m: any) => ({
+          ...m,
+          liked: this.likedMovies.some((lm: any) => lm.id === m.id)
+        }));
         this.movies.set(limitedMovies);
 
         this.totalPages = res.total_pages;
@@ -86,7 +102,54 @@ export class Movies implements OnInit {
     console.log('Movie ID:', id);
   }
 
-  toggleLike(movie: any): void {
-    movie.liked = !movie.liked;
+toggleLike(movie: any): void {
+  movie.liked = !movie.liked;
+
+  if (movie.liked) {
+    const exists = this.likedMovies.find((m: any) => m.id === movie.id);
+    if (!exists) {
+      this.likedMovies.push({
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date,
+        vote_average: movie.vote_average,
+        genre_ids: movie.genre_ids
+      });
+    }
+  } else {
+    this.likedMovies = this.likedMovies.filter((m: any) => m.id !== movie.id);
+  }
+
+  localStorage.setItem('likedMovies', JSON.stringify(this.likedMovies));
+}
+
+  searchMovies(query: string): void {
+    this.http.get<any>(`${this.apiUrl}/search/movie`, {
+      params: {
+        api_key: this.apiKey,
+        query: query,
+        language: 'en-US',
+        page: '1'
+      }
+    }).subscribe({
+      next: (res) => {
+        let limitedMovies = res.results.slice(0, 6).map((m: any) => ({
+          ...m,
+          liked: this.likedMovies.some((lm: any) => lm.id === m.id)
+        }));
+
+        limitedMovies = limitedMovies.filter((m: any) =>
+          m.title.toLowerCase().includes(query.toLowerCase())
+        );
+
+        this.movies.set(limitedMovies);
+
+        this.totalPages = res.total_pages;
+        this.currentPage = 1;
+        this.updateVisiblePages();
+      },
+      error: (err) => console.error('Error searching movies:', err)
+    });
   }
 }

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Movies } from './movies/movies'; 
 import {Navbar} from './navbar/navbar';
 import {Footer} from './footer/footer';
@@ -9,10 +9,18 @@ import {WatchList} from './watch-list/watch-list';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Movies, Navbar,Footer,About,Empty,WatchList],
+  imports: [RouterOutlet,Navbar,Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('iti');
+
+  constructor(private router: Router) {}
+
+  onSearch(query: string) {
+    if (query.trim()) {
+      this.router.navigate(['/movies'], { queryParams: { q: query } });
+    }
+  }
 }

@@ -1,4 +1,5 @@
-<app-navbar></app-navbar>
+
+<app-navbar (search)="onSearch($event)"></app-navbar>
 <main class="main">
   <router-outlet></router-outlet>
 </main>

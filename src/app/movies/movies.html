@@ -1,5 +1,6 @@
-  <app-trending></app-trending>
-<h1 class="mt-4 mb-3 text-center">Popular Movies</h1>
+
+<app-trending></app-trending>
+<h1 class="mt-4 mb-3 text-center">🎬Popular Movies🎬</h1>
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-4" *ngFor="let movie of movies()">
@@ -16,13 +17,14 @@
             (click)="toggleLike(movie)"
             style="cursor: pointer; float: right;">
           </i>
+
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">
             <strong>Release Date:</strong> {{ movie.release_date }} <br>
             <strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10 <br>
             <strong>Genres:</strong> {{ getGenresForMovie(movie.genre_ids) }}
           </p>
-          <button class="btn btn-primary" (click)="logMovieId(movie.id)">
+          <button class="btn btn-primary" (click)="logMovieId(movie.id)" [routerLink]="['/movie-details', movie.id]">
             More Details
           </button>
         </div>
@@ -48,4 +50,7 @@
       </li>
     </ul>
   </nav>
+
+
+
 </div>

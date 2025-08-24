@@ -1,7 +1,9 @@
-img {
-    width: 250px;
-    display: block;
-    margin: 20px auto;
-    opacity: 0.5;
-    filter: grayscale(30%);
+.card-img-top {
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+a{
+  text-decoration: none;
 }

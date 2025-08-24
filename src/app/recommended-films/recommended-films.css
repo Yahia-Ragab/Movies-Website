@@ -1,0 +1,58 @@
+.film-card {
+    width: 13rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .film-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  }
+  
+  .film-card img {
+    height: 280px;
+    object-fit: cover;
+  }
+  
+  .film-card .card-body {
+    padding: 0.75rem;
+  }
+  
+  .film-card .card-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .film-card .card-text {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100%, 100%;
+  background-image: none; 
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
+  content: '';
+  display: inline-block;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-top: 3px solid yellow;
+  border-right: 3px solid yellow;
+}
+
+.carousel-control-prev-icon::after {
+  transform: rotate(-135deg);
+}
+
+.carousel-control-next-icon::after {
+  transform: rotate(45deg);
+}
+  
+  

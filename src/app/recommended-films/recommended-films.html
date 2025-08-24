@@ -1,0 +1,38 @@
+<div class="recommended-films-slider mt-4">
+    <h3 class="mb-3 text-center">🎬 Recommended Films</h3>
+  
+    <div id="recommendedCarousel" class="carousel slide" data-bs-ride="false">
+      <div class="carousel-inner">
+  
+        @for (group of chunkedFilms(); track $index; let i = $index) {
+          <div class="carousel-item" [class.active]="i === 0">
+            <div class="d-flex justify-content-center flex-wrap gap-5">
+              @for (film of group; track $index) {
+                <div class="card film-card shadow-sm border-0">
+                  <img [src]="'https://image.tmdb.org/t/p/w500' + film.poster_path"
+                       [alt]="film.title"
+                       class="card-img-top rounded-top">
+                  <div class="card-body">
+                    <h6 class="card-title text-center fw-bold text-truncate">{{ film.title }}</h6>
+                    <p class="card-text small text-muted text-truncate">
+                      {{ film.overview }}
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+  
+      </div>
+  
+      <button class="carousel-control-prev" type="button" data-bs-target="#recommendedCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#recommendedCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
