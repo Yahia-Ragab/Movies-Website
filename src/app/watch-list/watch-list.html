@@ -2,7 +2,10 @@
 <div class="container mt-4">
   <div class="row" *ngIf="likedMovies.length > 0; else emptyList">
     <div class="col-md-4" *ngFor="let movie of likedMovies">
-      <div class="card mb-4 shadow-sm">
+      <div class="card mb-4 shadow-sm movie-card"
+           (click)="$event.stopPropagation()"
+           [routerLink]="['/movie-details', movie.id]">
+
         <img 
           [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
           class="card-img-top" 
@@ -12,7 +15,7 @@
           <i 
             class="bi" 
             [ngClass]="movie.liked ? 'bi-heart-fill text-warning fs-3' : 'bi-heart fs-3'" 
-            (click)="toggleLike(movie)"
+            (click)="$event.stopPropagation(); toggleLike(movie)"
             style="cursor: pointer; float: right;">
           </i>
 
@@ -22,9 +25,6 @@
             <strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10 <br>
             <strong>Genres:</strong> {{ getGenresForMovie(movie.genre_ids) }}
           </p>
-          <button class="btn btn-primary" [routerLink]="['/movie-details', movie.id]">
-            More Details
-          </button>
         </div>
       </div>
     </div>

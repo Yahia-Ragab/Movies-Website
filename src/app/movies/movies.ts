@@ -23,7 +23,7 @@ export class Movies implements OnInit {
   totalPages = 100;
   visiblePages: number[] = [];
 
-  likedMovies: any[] = [];   // ✅ store full objects, not numbers
+  likedMovies: any[] = [];
 
   constructor(public http: HttpClient, private route: ActivatedRoute) {}
 

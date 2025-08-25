@@ -1,32 +1,28 @@
-
 <app-trending></app-trending>
 <h1 class="mt-4 mb-3 text-center">🎬Popular Movies🎬</h1>
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-4" *ngFor="let movie of movies()">
-      <div class="card mb-4 shadow-sm">
+      <div class="card mb-4 shadow-sm movie-card" 
+           (click)="logMovieId(movie.id)" 
+           [routerLink]="['/movie-details', movie.id]">
         <img 
           [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
           class="card-img-top" 
           alt="{{ movie.title }}" />
-
         <div class="card-body">
           <i 
             class="bi" 
             [ngClass]="movie.liked ? 'bi-heart-fill text-warning fs-3' : 'bi-heart fs-3'" 
-            (click)="toggleLike(movie)"
+            (click)="$event.stopPropagation(); toggleLike(movie)"
             style="cursor: pointer; float: right;">
           </i>
-
           <h5 class="card-title">{{ movie.title }}</h5>
           <p class="card-text">
             <strong>Release Date:</strong> {{ movie.release_date }} <br>
             <strong>Rating:</strong> {{ movie.vote_average | number:'1.1-1' }}/10 <br>
             <strong>Genres:</strong> {{ getGenresForMovie(movie.genre_ids) }}
           </p>
-          <button class="btn btn-primary" (click)="logMovieId(movie.id)" [routerLink]="['/movie-details', movie.id]">
-            More Details
-          </button>
         </div>
       </div>
     </div>
@@ -37,20 +33,16 @@
       <li class="page-item" [class.disabled]="currentPage === 1">
         <a class="page-link" (click)="loadMovies(currentPage - 1)">Previous</a>
       </li>
-
       <li 
         class="page-item" 
         *ngFor="let page of visiblePages" 
         [class.active]="page === currentPage">
         <a class="page-link" (click)="loadMovies(page)">{{ page }}</a>
       </li>
-
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a class="page-link" (click)="loadMovies(currentPage + 1)">Next</a>
       </li>
     </ul>
   </nav>
-
-
-
 </div>
+

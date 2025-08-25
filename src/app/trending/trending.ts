@@ -1,11 +1,12 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { NgFor, NgClass, DecimalPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [NgFor, NgClass, DecimalPipe],
+  imports: [NgFor, NgClass, DecimalPipe, RouterLink], // ✅ added RouterLink
   templateUrl: './trending.html',
   styleUrls: ['./trending.css']
 })
@@ -18,8 +19,7 @@ export class Trending implements OnInit {
   totalPages = 100;
   genresMap = new Map<number, string>();
   visiblePages: number[] = [];
-
-  likedMovies: any[] = [];  // ✅ now full objects
+  likedMovies: any[] = [];
 
   constructor(public http: HttpClient) {}
 
@@ -82,6 +82,10 @@ export class Trending implements OnInit {
       .map(id => this.genresMap.get(id))
       .filter(Boolean)
       .join(', ');
+  }
+
+  logMovieId(id: number): void {
+    console.log('Trending Movie ID:', id);
   }
 
   toggleLike(movie: any): void {

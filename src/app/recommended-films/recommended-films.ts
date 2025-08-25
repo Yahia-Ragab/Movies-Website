@@ -45,8 +45,4 @@ export class RecommendedFilms implements OnInit {
     }
     return result;
   }
-
 }
-
-
-
